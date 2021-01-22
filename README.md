@@ -2,4 +2,4 @@ ParadoxSlabs is a mod that allows double slabs to be broken in half instead of e
 
 ![](https://i.imgur.com/aUKQVtR.gif)
 
-Similarly to KleeSlabs, this mod's name was inspired by [RedstoneParadox](https://github.com/RedstoneParadox), who requested a port thereof in the Fabric Discord guild.
+Similarly to KleeSlabs, this mod's name was inspired by [RedstoneParadox](https://github.com/RedstoneParadox), who requested Fabric a port of the mod in the Fabric Discord guild.
