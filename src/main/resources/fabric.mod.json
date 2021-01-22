@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "paradox-slabs",
+    "id": "paradoxslabs",
     "version": "${version}",
 
     "name": "ParadoxSlabs",
@@ -13,9 +13,9 @@
     },
 
     "license": "MIT",
-    "icon": "assets/paradox-slabs/icon.png",
+    "icon": "assets/paradoxslabs/icon.png",
 
     "mixins": [
-        "paradox-slabs.mixins.json"
+        "paradoxslabs.mixins.json"
     ]
 }
