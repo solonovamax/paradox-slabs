@@ -1,0 +1,21 @@
+{
+    "schemaVersion": 1,
+    "id": "paradox-slabs",
+    "version": "${version}",
+
+    "name": "ParadoxSlabs",
+    "description": "This mod allows double slabs to be broken in half.",
+    "authors": [
+        "user11681"
+    ],
+    "contact": {
+        "repo": "https://github.com/user11681/paradox-slabs"
+    },
+
+    "license": "MIT",
+    "icon": "assets/paradox-slabs/icon.png",
+
+    "mixins": [
+        "paradox-slabs.mixins.json"
+    ]
+}

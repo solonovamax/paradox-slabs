@@ -1,0 +1,16 @@
+plugins {
+    id("wheel").version("snapshot")
+}
+
+project.with {
+    group = "user11681"
+    version = "0.0.0"
+}
+
+wheel {
+    minecraftVersion = "1.16.5"
+}
+
+dependencies {
+    modApi("api:0.29.4+1.16")
+}
