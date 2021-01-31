@@ -1,7 +1,6 @@
 package user11681.paradoxslabs;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.EntityShapeContext;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.enums.SlabType;
@@ -16,7 +15,7 @@ import user11681.paradoxslabs.access.EntityShapeContextAccess;
 
 public class ParadoxSlabs {
     public static double raycast(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
-        if (context instanceof EntityShapeContext) {
+        if (context instanceof EntityShapeContextAccess) {
             Entity entity = ((EntityShapeContextAccess) context).getEntity();
 
             if (entity != null) {
@@ -40,7 +39,9 @@ public class ParadoxSlabs {
 
             if (y >= 0.5) {
                 return new Pair<>(block.with(SlabBlock.TYPE, SlabType.TOP), block.with(SlabBlock.TYPE, SlabType.BOTTOM));
-            } else if (y >= 0) {
+            }
+
+            if (y >= 0) {
                 return new Pair<>(block.with(SlabBlock.TYPE, SlabType.BOTTOM), block.with(SlabBlock.TYPE, SlabType.TOP));
             }
         }

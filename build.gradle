@@ -3,8 +3,8 @@ plugins {
 }
 
 project.with {
-    group = "user11681"
-    version = "0.0.0"
+    group("user11681")
+    version("0.0.1")
 }
 
 wheel {
