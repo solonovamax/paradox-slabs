@@ -22,7 +22,7 @@ abstract class EntityShapeContextMixin implements EntityShapeContextAccess {
     }
 
     @Override
-    public Entity getEntity() {
+    public Entity paradoxslabs_getEntity() {
         return this.entity;
     }
 }

@@ -10,5 +10,5 @@ import user11681.paradoxslabs.access.EntityShapeContextAccess;
 @Mixin(targets = "me.jellysquid.mods.lithium.common.block.LithiumEntityShapeContext")
 abstract class LithiumEntityShapeContextMixin implements EntityShapeContextAccess {
     @Accessor("entity")
-    public abstract Entity getEntity();
+    public abstract Entity paradoxslabs_getEntity();
 }

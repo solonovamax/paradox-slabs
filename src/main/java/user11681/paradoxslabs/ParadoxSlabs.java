@@ -16,7 +16,7 @@ import user11681.paradoxslabs.access.EntityShapeContextAccess;
 public class ParadoxSlabs {
     public static double raycast(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
         if (context instanceof EntityShapeContextAccess) {
-            Entity entity = ((EntityShapeContextAccess) context).getEntity();
+            Entity entity = ((EntityShapeContextAccess) context).paradoxslabs_getEntity();
 
             if (entity != null) {
                 Vec3d position = entity.getPos();
