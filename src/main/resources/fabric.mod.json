@@ -9,7 +9,9 @@
         "user11681"
     ],
     "contact": {
-        "repo": "https://github.com/user11681/paradox-slabs"
+        "sources": "https://github.com/user11681/paradox-slabs",
+        "issues": "https://github.com/user11681/paradox-slabs/issues",
+        "homepage": "https://www.curseforge.com/minecraft/mc-mods/paradox-slabs"
     },
 
     "license": "MIT",
