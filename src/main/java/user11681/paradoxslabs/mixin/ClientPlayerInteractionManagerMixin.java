@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,11 +32,28 @@ abstract class ClientPlayerInteractionManagerMixin {
                     at = @At(value = "INVOKE",
                              target = "Lnet/minecraft/block/Block;onBreak(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/entity/player/PlayerEntity;)V"))
     public BlockState fixState(BlockState block, BlockPos pos) {
-        Pair<BlockState, BlockState> states = ParadoxSlabs.getStates(this.client.world, pos, block, this.client.player);
+        if (ParadoxSlabs.hasAxis()) {
+            switch (block.get(Properties.AXIS)) {
+                case X:
+                    Pair<BlockState, BlockState> xStates = ParadoxSlabs.xStates(this.client.world, pos, block, this.client.player);
 
-        this.newState = states.getRight();
+                    this.newState = xStates.getRight();
 
-        return states.getLeft();
+                    return xStates.getLeft();
+                case Z:
+                    Pair<BlockState, BlockState> zStates = ParadoxSlabs.zStates(this.client.world, pos, block, this.client.player);
+
+                    this.newState = zStates.getRight();
+
+                    return zStates.getLeft();
+            }
+        }
+
+        Pair<BlockState, BlockState> yStates = ParadoxSlabs.yStates(this.client.world, pos, block, this.client.player);
+
+        this.newState = yStates.getRight();
+
+        return yStates.getLeft();
     }
 
     @Redirect(method = "breakBlock",
