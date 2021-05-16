@@ -6,8 +6,7 @@
     "mixins": [
         "EntityShapeContextMixin",
         "ServerPlayerInteractionManagerMixin",
-        "SlabBlockMixin",
-        "compatibility.LithiumEntityShapeContextMixin"
+        "SlabBlockMixin"
     ],
     "client": [
         "ClientPlayerInteractionManagerMixin",
