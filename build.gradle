@@ -6,6 +6,7 @@ group = "user11681"
 version = "0.1.1"
 
 boolean betterSlabs
+boolean lithium
 
 repositories {
     if (betterSlabs) {
@@ -22,5 +23,9 @@ dependencies {
 
     if (betterSlabs) {
         modRuntime("dev.bodner.jack:betterslabs:latest.release")
+    }
+
+    if (lithium) {
+        modRuntime("curse.maven:lithium-360438:3215441")
     }
 }
