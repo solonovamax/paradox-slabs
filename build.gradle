@@ -1,5 +1,5 @@
 plugins {
-    id("wheel").version("0-SNAPSHOT")
+    id("wheel-fabric").version("latest.integration")
 }
 
 group = "user11681"
@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    mod("api-resource-loader:0.3.1+facf3bbf95")
+    mod("api-resource-loader")
     intransitive("mod-menu:1.14+")
 
     if (betterSlabs) {
