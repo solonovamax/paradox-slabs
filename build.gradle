@@ -2,11 +2,18 @@ plugins {
     id("wheel-fabric").version("latest.integration")
 }
 
-group = "user11681"
+group = "net.auoeke"
 version = "0.1.1"
 
 boolean betterSlabs
 boolean lithium
+
+sourceSets {
+    main {
+        java.srcDir("src")
+        resources.srcDir("resources")
+    }
+}
 
 repositories {
     if (betterSlabs) {
@@ -22,10 +29,10 @@ dependencies {
     intransitive("mod-menu:1.14+")
 
     if (betterSlabs) {
-        modRuntime("dev.bodner.jack:betterslabs:latest.release")
+        modRuntimeOnly("dev.bodner.jack:betterslabs:latest.release")
     }
 
     if (lithium) {
-        modRuntime("curse.maven:lithium-360438:3215441")
+        modRuntimeOnly("curse.maven:lithium-360438:3215441")
     }
 }
