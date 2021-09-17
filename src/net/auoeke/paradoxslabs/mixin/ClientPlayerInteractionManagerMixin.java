@@ -1,12 +1,12 @@
-package user11681.paradoxslabs.mixin;
+package net.auoeke.paradoxslabs.mixin;
 
+import net.auoeke.paradoxslabs.ParadoxSlabs;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import user11681.paradoxslabs.ParadoxSlabs;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPlayerInteractionManager.class)
@@ -34,23 +33,22 @@ abstract class ClientPlayerInteractionManagerMixin {
     public BlockState fixState(BlockState block, BlockPos pos) {
         if (ParadoxSlabs.hasAxis()) {
             switch (block.get(Properties.AXIS)) {
-                case X:
-                    Pair<BlockState, BlockState> xStates = ParadoxSlabs.xStates(this.client.world, pos, block, this.client.player);
-
+                case X -> {
+                    var xStates = ParadoxSlabs.xStates(this.client.world, pos, block, this.client.player);
                     this.newState = xStates.getRight();
 
                     return xStates.getLeft();
-                case Z:
-                    Pair<BlockState, BlockState> zStates = ParadoxSlabs.zStates(this.client.world, pos, block, this.client.player);
-
+                }
+                case Z -> {
+                    var zStates = ParadoxSlabs.zStates(this.client.world, pos, block, this.client.player);
                     this.newState = zStates.getRight();
 
                     return zStates.getLeft();
+                }
             }
         }
 
-        Pair<BlockState, BlockState> yStates = ParadoxSlabs.yStates(this.client.world, pos, block, this.client.player);
-
+        var yStates = ParadoxSlabs.yStates(this.client.world, pos, block, this.client.player);
         this.newState = yStates.getRight();
 
         return yStates.getLeft();
@@ -60,12 +58,12 @@ abstract class ClientPlayerInteractionManagerMixin {
               at = @At(value = "INVOKE",
                        target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"))
     public boolean removeSlab(World world, BlockPos pos, BlockState state, int flags) {
-        if (this.newState != null) {
-            world.setBlockState(pos, this.newState);
-
-            return true;
+        if (this.newState == null) {
+            return world.setBlockState(pos, state, flags);
         }
 
-        return world.setBlockState(pos, state, flags);
+        world.setBlockState(pos, this.newState);
+
+        return true;
     }
 }

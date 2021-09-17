@@ -1,6 +1,7 @@
-package user11681.paradoxslabs.mixin;
+package net.auoeke.paradoxslabs.mixin;
 
 import it.unimi.dsi.fastutil.longs.Long2ReferenceOpenHashMap;
+import net.auoeke.paradoxslabs.ParadoxSlabs;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -19,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import user11681.paradoxslabs.ParadoxSlabs;
 
 @Environment(EnvType.CLIENT)
 @Mixin(WorldRenderer.class)

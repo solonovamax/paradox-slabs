@@ -1,5 +1,6 @@
-package user11681.paradoxslabs;
+package net.auoeke.paradoxslabs;
 
+import net.auoeke.paradoxslabs.access.EntityShapeContextAccess;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
@@ -14,26 +15,19 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import user11681.paradoxslabs.access.EntityShapeContextAccess;
 
 public class ParadoxSlabs {
-    private static int hasAxis;
+    private static boolean checkedAxis;
+    private static boolean hasAxis;
 
-    /**
-     * For Better Slabs compatibility.
-     */
+    /** For Better Slabs compatibility. */
     public static boolean hasAxis() {
-        if ((hasAxis & 0x0000FFFF) == 0) {
-            if (Blocks.ACACIA_SLAB.getDefaultState().contains(Properties.AXIS)) {
-                hasAxis = 0xFFFFFFFF;
-
-                return true;
-            }
-
-            hasAxis = 0x0000FFFF;
+        if (!checkedAxis) {
+            checkedAxis = true;
+            hasAxis = Blocks.ACACIA_SLAB.getDefaultState().contains(Properties.AXIS);
         }
 
-        return (hasAxis & 0xFFFF0000) != 0;
+        return hasAxis;
     }
 
     public static BlockHitResult raycast(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
@@ -54,31 +48,22 @@ public class ParadoxSlabs {
     public static double raycastX(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
         BlockHitResult raycast = raycast(context, world, pos, state);
 
-        if (raycast != null) {
-            return raycast.getPos().x - pos.getX();
-        }
+        return raycast == null ? -1 : raycast.getPos().x - pos.getX();
 
-        return -1;
     }
 
     public static double raycastY(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
         BlockHitResult raycast = raycast(context, world, pos, state);
 
-        if (raycast != null) {
-            return raycast.getPos().y - pos.getY();
-        }
+        return raycast == null ? -1 : raycast.getPos().y - pos.getY();
 
-        return -1;
     }
 
     public static double raycastZ(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
         BlockHitResult raycast = raycast(context, world, pos, state);
 
-        if (raycast != null) {
-            return raycast.getPos().z - pos.getZ();
-        }
+        return raycast == null ? -1 : raycast.getPos().z - pos.getZ();
 
-        return -1;
     }
 
     public static Pair<BlockState, BlockState> xStates(BlockView world, BlockPos pos, BlockState block, Entity entity) {

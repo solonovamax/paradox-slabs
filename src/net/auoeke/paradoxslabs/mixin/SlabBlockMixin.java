@@ -1,5 +1,6 @@
-package user11681.paradoxslabs.mixin;
+package net.auoeke.paradoxslabs.mixin;
 
+import net.auoeke.paradoxslabs.ParadoxSlabs;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SlabBlock;
@@ -15,7 +16,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import user11681.paradoxslabs.ParadoxSlabs;
 
 @Mixin(SlabBlock.class)
 abstract class SlabBlockMixin {
@@ -42,7 +42,7 @@ abstract class SlabBlockMixin {
     public void fixOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> info) {
         if (ParadoxSlabs.hasAxis()) {
             switch (state.get(Properties.AXIS)) {
-                case X:
+                case X -> {
                     double x = ParadoxSlabs.raycastX(context, world, pos, state);
 
                     if (x >= 0.5) {
@@ -52,7 +52,8 @@ abstract class SlabBlockMixin {
                     }
 
                     return;
-                case Z:
+                }
+                case Z -> {
                     double z = ParadoxSlabs.raycastZ(context, world, pos, state);
 
                     if (z >= 0.5) {
@@ -62,6 +63,7 @@ abstract class SlabBlockMixin {
                     }
 
                     return;
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-package user11681.paradoxslabs.access;
+package net.auoeke.paradoxslabs.access;
 
 import net.minecraft.entity.Entity;
 

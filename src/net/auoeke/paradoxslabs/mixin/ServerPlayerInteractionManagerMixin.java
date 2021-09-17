@@ -1,5 +1,6 @@
-package user11681.paradoxslabs.mixin;
+package net.auoeke.paradoxslabs.mixin;
 
+import net.auoeke.paradoxslabs.ParadoxSlabs;
 import net.minecraft.block.BlockState;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
@@ -13,7 +14,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import user11681.paradoxslabs.ParadoxSlabs;
 
 @Mixin(ServerPlayerInteractionManager.class)
 abstract class ServerPlayerInteractionManagerMixin {
@@ -32,18 +32,18 @@ abstract class ServerPlayerInteractionManagerMixin {
     public BlockState fixState(BlockState block, BlockPos pos) {
         if (ParadoxSlabs.hasAxis()) {
             switch (block.get(Properties.AXIS)) {
-                case X:
-                    Pair<BlockState, BlockState> xStates = ParadoxSlabs.xStates(this.world, pos, block, this.player);
-
+                case X -> {
+                    var xStates = ParadoxSlabs.xStates(this.world, pos, block, this.player);
                     this.newState = xStates.getRight();
 
                     return xStates.getLeft();
-                case Z:
-                    Pair<BlockState, BlockState> zStates = ParadoxSlabs.zStates(this.world, pos, block, this.player);
-
+                }
+                case Z -> {
+                    var zStates = ParadoxSlabs.zStates(this.world, pos, block, this.player);
                     this.newState = zStates.getRight();
 
                     return zStates.getLeft();
+                }
             }
         }
 
