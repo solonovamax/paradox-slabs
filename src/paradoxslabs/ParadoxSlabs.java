@@ -1,6 +1,6 @@
-package net.auoeke.paradoxslabs;
+package paradoxslabs;
 
-import net.auoeke.paradoxslabs.access.EntityShapeContextAccess;
+import paradoxslabs.access.EntityShapeContextAccess;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;

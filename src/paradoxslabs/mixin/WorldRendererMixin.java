@@ -1,7 +1,7 @@
-package net.auoeke.paradoxslabs.mixin;
+package paradoxslabs.mixin;
 
 import it.unimi.dsi.fastutil.longs.Long2ReferenceOpenHashMap;
-import net.auoeke.paradoxslabs.ParadoxSlabs;
+import paradoxslabs.ParadoxSlabs;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -24,27 +24,20 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Environment(EnvType.CLIENT)
 @Mixin(WorldRenderer.class)
 abstract class WorldRendererMixin {
-    @Shadow
-    private ClientWorld world;
+    @Shadow private ClientWorld world;
+    @Shadow @Final private MinecraftClient client;
 
-    @Shadow
-    @Final
-    private MinecraftClient client;
-
-    @Unique
-    private final Long2ReferenceOpenHashMap<BlockState> slabStates = new Long2ReferenceOpenHashMap<>();
+    @Unique private final Long2ReferenceOpenHashMap<BlockState> slabStates = new Long2ReferenceOpenHashMap<>();
 
     @Inject(method = "removeBlockBreakingInfo",
-            at = @At(value = "INVOKE",
-                     target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;remove(J)Ljava/lang/Object;"),
+            at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;remove(J)Ljava/lang/Object;"),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void removeSlabState(BlockBreakingInfo blockBreakingInfo, CallbackInfo info, long key) {
         this.slabStates.remove(key);
     }
 
     @Inject(method = "setBlockBreakingInfo",
-            at = @At(value = "INVOKE",
-                     target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;computeIfAbsent(JLit/unimi/dsi/fastutil/longs/Long2ObjectFunction;)Ljava/lang/Object;"),
+            at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;computeIfAbsent(JLit/unimi/dsi/fastutil/longs/Long2ObjectFunction;)Ljava/lang/Object;"),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void removeSlabState(int entityId, BlockPos pos, int stage, CallbackInfo info, BlockBreakingInfo blockBreakingInfo) {
         BlockState state = this.world.getBlockState(pos);
@@ -52,13 +45,11 @@ abstract class WorldRendererMixin {
         if (ParadoxSlabs.hasAxis()) {
             switch (state.get(Properties.AXIS)) {
                 case X -> {
-                    this.slabStates.put(blockBreakingInfo.getPos().asLong(),
-                                        ParadoxSlabs.xStates(this.world, pos, state, this.client.player).getLeft());
+                    this.slabStates.put(blockBreakingInfo.getPos().asLong(), ParadoxSlabs.xStates(this.world, pos, state, this.client.player).getLeft());
                     return;
                 }
                 case Z -> {
-                    this.slabStates.put(blockBreakingInfo.getPos().asLong(),
-                                        ParadoxSlabs.zStates(this.world, pos, state, this.client.player).getLeft());
+                    this.slabStates.put(blockBreakingInfo.getPos().asLong(), ParadoxSlabs.zStates(this.world, pos, state, this.client.player).getLeft());
                     return;
                 }
             }
@@ -68,9 +59,7 @@ abstract class WorldRendererMixin {
     }
 
     @Redirect(method = "render",
-              at = @At(value = "INVOKE",
-                       target = "Lnet/minecraft/client/world/ClientWorld;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;",
-                       ordinal = 0))
+              at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;", ordinal = 0))
     public BlockState renderSlab(ClientWorld world, BlockPos pos) {
         return this.slabStates.get(pos.asLong());
     }

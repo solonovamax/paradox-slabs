@@ -1,6 +1,6 @@
-package net.auoeke.paradoxslabs.mixin;
+package paradoxslabs.mixin;
 
-import net.auoeke.paradoxslabs.ParadoxSlabs;
+import paradoxslabs.ParadoxSlabs;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SlabBlock;
