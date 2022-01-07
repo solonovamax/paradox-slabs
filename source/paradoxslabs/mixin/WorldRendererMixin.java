@@ -30,14 +30,14 @@ abstract class WorldRendererMixin {
     @Unique private final Long2ReferenceOpenHashMap<BlockState> slabStates = new Long2ReferenceOpenHashMap<>();
 
     @Inject(method = "removeBlockBreakingInfo",
-            at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;remove(J)Ljava/lang/Object;"),
+            at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;remove(J)Ljava/lang/Object;", remap = false),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void removeSlabState(BlockBreakingInfo blockBreakingInfo, CallbackInfo info, long key) {
         this.slabStates.remove(key);
     }
 
     @Inject(method = "setBlockBreakingInfo",
-            at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;computeIfAbsent(JLit/unimi/dsi/fastutil/longs/Long2ObjectFunction;)Ljava/lang/Object;"),
+            at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;computeIfAbsent(JLit/unimi/dsi/fastutil/longs/Long2ObjectFunction;)Ljava/lang/Object;", remap = false),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void removeSlabState(int entityId, BlockPos pos, int stage, CallbackInfo info, BlockBreakingInfo blockBreakingInfo) {
         var state = this.world.getBlockState(pos);
