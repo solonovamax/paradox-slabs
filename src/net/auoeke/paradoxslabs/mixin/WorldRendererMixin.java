@@ -44,21 +44,23 @@ abstract class WorldRendererMixin {
 
     @Inject(method = "setBlockBreakingInfo",
             at = @At(value = "INVOKE",
-                     target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;computeIfAbsent(JLjava/util/function/LongFunction;)Ljava/lang/Object;"),
+                     target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;computeIfAbsent(JLit/unimi/dsi/fastutil/longs/Long2ObjectFunction;)Ljava/lang/Object;"),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void removeSlabState(int entityId, BlockPos pos, int stage, CallbackInfo info, BlockBreakingInfo blockBreakingInfo) {
         BlockState state = this.world.getBlockState(pos);
 
         if (ParadoxSlabs.hasAxis()) {
             switch (state.get(Properties.AXIS)) {
-                case X:
-                    this.slabStates.put(blockBreakingInfo.getPos().asLong(), ParadoxSlabs.xStates(this.world, pos, state, this.client.player).getLeft());
-
+                case X -> {
+                    this.slabStates.put(blockBreakingInfo.getPos().asLong(),
+                                        ParadoxSlabs.xStates(this.world, pos, state, this.client.player).getLeft());
                     return;
-                case Z:
-                    this.slabStates.put(blockBreakingInfo.getPos().asLong(), ParadoxSlabs.zStates(this.world, pos, state, this.client.player).getLeft());
-
+                }
+                case Z -> {
+                    this.slabStates.put(blockBreakingInfo.getPos().asLong(),
+                                        ParadoxSlabs.zStates(this.world, pos, state, this.client.player).getLeft());
                     return;
+                }
             }
         }
 
