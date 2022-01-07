@@ -7,7 +7,6 @@ group = "net.auoeke"
 version = "0.1.2"
 
 boolean betterSlabs
-boolean lithium
 
 repositories {
     if (betterSlabs) {
@@ -24,9 +23,5 @@ dependencies {
 
     if (betterSlabs) {
         modRuntimeOnly("dev.bodner.jack:betterslabs")
-    }
-
-    if (lithium) {
-        modRuntimeOnly("curse.maven:lithium-360438:3215441")
     }
 }
