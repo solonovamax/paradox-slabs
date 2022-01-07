@@ -31,8 +31,8 @@ public class ParadoxSlabs {
     }
 
     public static BlockHitResult raycast(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
-        if (context instanceof EntityShapeContextAccess) {
-            Entity entity = ((EntityShapeContextAccess) context).paradoxslabs_getEntity();
+        if (context instanceof EntityShapeContextAccess entityContext) {
+            Entity entity = entityContext.paradoxslabs_getEntity();
 
             if (entity != null) {
                 Vec3d position = entity.getPos();
