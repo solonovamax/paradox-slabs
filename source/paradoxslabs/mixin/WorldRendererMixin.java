@@ -24,8 +24,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Environment(EnvType.CLIENT)
 @Mixin(WorldRenderer.class)
 abstract class WorldRendererMixin {
-    @Shadow private ClientWorld world;
     @Shadow @Final private MinecraftClient client;
+    @Shadow private ClientWorld world;
 
     @Unique private final Long2ReferenceOpenHashMap<BlockState> slabStates = new Long2ReferenceOpenHashMap<>();
 
@@ -40,7 +40,7 @@ abstract class WorldRendererMixin {
             at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;computeIfAbsent(JLit/unimi/dsi/fastutil/longs/Long2ObjectFunction;)Ljava/lang/Object;"),
             locals = LocalCapture.CAPTURE_FAILEXCEPTION)
     private void removeSlabState(int entityId, BlockPos pos, int stage, CallbackInfo info, BlockBreakingInfo blockBreakingInfo) {
-        BlockState state = this.world.getBlockState(pos);
+        var state = this.world.getBlockState(pos);
 
         if (ParadoxSlabs.hasAxis()) {
             switch (state.get(Properties.AXIS)) {

@@ -47,7 +47,7 @@ abstract class ServerPlayerInteractionManagerMixin {
             }
         }
 
-        Pair<BlockState, BlockState> yStates = ParadoxSlabs.yStates(this.world, pos, block, this.player);
+        var yStates = ParadoxSlabs.yStates(this.world, pos, block, this.player);
 
         this.newState = yStates.getRight();
 

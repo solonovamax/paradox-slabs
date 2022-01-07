@@ -32,10 +32,10 @@ public class ParadoxSlabs {
 
     public static BlockHitResult raycast(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
         if (context instanceof EntityShapeContextAccess entityContext) {
-            Entity entity = entityContext.paradoxslabs_getEntity();
+            var entity = entityContext.paradoxslabs_getEntity();
 
             if (entity != null) {
-                Vec3d position = entity.getPos();
+                var position = entity.getPos();
                 position = new Vec3d(position.x, entity.getEyeY(), position.z);
 
                 return world.raycastBlock(position, position.add(entity.getRotationVector().multiply(20)), pos, VoxelShapes.fullCube(), state);
@@ -46,21 +46,21 @@ public class ParadoxSlabs {
     }
 
     public static double raycastX(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
-        BlockHitResult raycast = raycast(context, world, pos, state);
+        var raycast = raycast(context, world, pos, state);
 
         return raycast == null ? -1 : raycast.getPos().x - pos.getX();
 
     }
 
     public static double raycastY(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
-        BlockHitResult raycast = raycast(context, world, pos, state);
+        var raycast = raycast(context, world, pos, state);
 
         return raycast == null ? -1 : raycast.getPos().y - pos.getY();
 
     }
 
     public static double raycastZ(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
-        BlockHitResult raycast = raycast(context, world, pos, state);
+        var raycast = raycast(context, world, pos, state);
 
         return raycast == null ? -1 : raycast.getPos().z - pos.getZ();
 
@@ -68,7 +68,7 @@ public class ParadoxSlabs {
 
     public static Pair<BlockState, BlockState> xStates(BlockView world, BlockPos pos, BlockState block, Entity entity) {
         if (block.getBlock() instanceof SlabBlock && block.get(SlabBlock.TYPE) == SlabType.DOUBLE) {
-            double x = ParadoxSlabs.raycastX(ShapeContext.of(entity), world, pos, block);
+            var x = ParadoxSlabs.raycastX(ShapeContext.of(entity), world, pos, block);
 
             if (x >= 0.5) {
                 return new Pair<>(block.with(SlabBlock.TYPE, SlabType.TOP).with(Properties.AXIS, Direction.Axis.X), block.with(SlabBlock.TYPE, SlabType.BOTTOM).with(Properties.AXIS, Direction.Axis.X));
@@ -84,7 +84,7 @@ public class ParadoxSlabs {
 
     public static Pair<BlockState, BlockState> yStates(BlockView world, BlockPos pos, BlockState block, Entity entity) {
         if (block.getBlock() instanceof SlabBlock && block.get(SlabBlock.TYPE) == SlabType.DOUBLE) {
-            double y = ParadoxSlabs.raycastY(ShapeContext.of(entity), world, pos, block);
+            var y = ParadoxSlabs.raycastY(ShapeContext.of(entity), world, pos, block);
 
             if (y >= 0.5) {
                 return hasAxis()
@@ -104,7 +104,7 @@ public class ParadoxSlabs {
 
     public static Pair<BlockState, BlockState> zStates(BlockView world, BlockPos pos, BlockState block, Entity entity) {
         if (block.getBlock() instanceof SlabBlock && block.get(SlabBlock.TYPE) == SlabType.DOUBLE) {
-            double z = ParadoxSlabs.raycastZ(ShapeContext.of(entity), world, pos, block);
+            var z = ParadoxSlabs.raycastZ(ShapeContext.of(entity), world, pos, block);
 
             if (z >= 0.5) {
                 return new Pair<>(block.with(SlabBlock.TYPE, SlabType.TOP).with(Properties.AXIS, Direction.Axis.Z), block.with(SlabBlock.TYPE, SlabType.BOTTOM).with(Properties.AXIS, Direction.Axis.Z));
