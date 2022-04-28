@@ -1,6 +1,6 @@
-package net.auoeke.paradoxslabs.mixin;
+package paradoxslabs.mixin;
 
-import net.auoeke.paradoxslabs.ParadoxSlabs;
+import paradoxslabs.ParadoxSlabs;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SlabBlock;
@@ -43,7 +43,7 @@ abstract class SlabBlockMixin {
         if (ParadoxSlabs.hasAxis()) {
             switch (state.get(Properties.AXIS)) {
                 case X -> {
-                    double x = ParadoxSlabs.raycastX(context, world, pos, state);
+                    var x = ParadoxSlabs.raycastX(context, world, pos, state);
 
                     if (x >= 0.5) {
                         info.setReturnValue(east);
@@ -54,7 +54,7 @@ abstract class SlabBlockMixin {
                     return;
                 }
                 case Z -> {
-                    double z = ParadoxSlabs.raycastZ(context, world, pos, state);
+                    var z = ParadoxSlabs.raycastZ(context, world, pos, state);
 
                     if (z >= 0.5) {
                         info.setReturnValue(south);
@@ -67,7 +67,7 @@ abstract class SlabBlockMixin {
             }
         }
 
-        double y = ParadoxSlabs.raycastY(context, world, pos, state);
+        var y = ParadoxSlabs.raycastY(context, world, pos, state);
 
         if (y >= 0.5) {
             info.setReturnValue(TOP_SHAPE);

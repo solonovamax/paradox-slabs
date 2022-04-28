@@ -1,6 +1,6 @@
-package net.auoeke.paradoxslabs.mixin;
+package paradoxslabs.mixin;
 
-import net.auoeke.paradoxslabs.access.EntityShapeContextAccess;
+import paradoxslabs.access.EntityShapeContextAccess;
 import net.minecraft.block.EntityShapeContext;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

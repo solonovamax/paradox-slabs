@@ -1,19 +1,12 @@
 plugins {
     id("wheel").version("0-SNAPSHOT")
+    id("gronk").version("latest.release")
 }
 
 group = "net.auoeke"
-version = "0.1.1"
+version = "0.1.2"
 
 boolean betterSlabs
-boolean lithium
-
-sourceSets {
-    main {
-        java.srcDir("src")
-        resources.srcDir("resources")
-    }
-}
 
 repositories {
     if (betterSlabs) {
@@ -26,13 +19,9 @@ repositories {
 
 dependencies {
     mod("api-resource-loader")
-    intransitive("mod-menu:1.14+")
+    modRuntimeOnly("mod-menu")
 
     if (betterSlabs) {
-        modRuntimeOnly("dev.bodner.jack:betterslabs:latest.release")
-    }
-
-    if (lithium) {
-        modRuntimeOnly("curse.maven:lithium-360438:3215441")
+        modRuntimeOnly("dev.bodner.jack:betterslabs")
     }
 }

@@ -1,13 +1,15 @@
-package net.auoeke.paradoxslabs.mixin;
+package paradoxslabs.mixin;
 
-import net.auoeke.paradoxslabs.ParadoxSlabs;
+import paradoxslabs.ParadoxSlabs;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.network.ServerPlayerInteractionManager;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -15,31 +17,30 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(ServerPlayerInteractionManager.class)
-abstract class ServerPlayerInteractionManagerMixin {
+@Environment(EnvType.CLIENT)
+@Mixin(ClientPlayerInteractionManager.class)
+abstract class ClientPlayerInteractionManagerMixin {
     @Shadow
-    public ServerPlayerEntity player;
-
-    @Shadow
-    public ServerWorld world;
+    @Final
+    private MinecraftClient client;
 
     @Unique
     private BlockState newState;
 
-    @ModifyVariable(method = "tryBreakBlock",
+    @ModifyVariable(method = "breakBlock",
                     at = @At(value = "INVOKE",
                              target = "Lnet/minecraft/block/Block;onBreak(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/entity/player/PlayerEntity;)V"))
     public BlockState fixState(BlockState block, BlockPos pos) {
         if (ParadoxSlabs.hasAxis()) {
             switch (block.get(Properties.AXIS)) {
                 case X -> {
-                    var xStates = ParadoxSlabs.xStates(this.world, pos, block, this.player);
+                    var xStates = ParadoxSlabs.xStates(this.client.world, pos, block, this.client.player);
                     this.newState = xStates.getRight();
 
                     return xStates.getLeft();
                 }
                 case Z -> {
-                    var zStates = ParadoxSlabs.zStates(this.world, pos, block, this.player);
+                    var zStates = ParadoxSlabs.zStates(this.client.world, pos, block, this.client.player);
                     this.newState = zStates.getRight();
 
                     return zStates.getLeft();
@@ -47,23 +48,22 @@ abstract class ServerPlayerInteractionManagerMixin {
             }
         }
 
-        Pair<BlockState, BlockState> yStates = ParadoxSlabs.yStates(this.world, pos, block, this.player);
-
+        var yStates = ParadoxSlabs.yStates(this.client.world, pos, block, this.client.player);
         this.newState = yStates.getRight();
 
         return yStates.getLeft();
     }
 
-    @Redirect(method = "tryBreakBlock",
+    @Redirect(method = "breakBlock",
               at = @At(value = "INVOKE",
-                       target = "Lnet/minecraft/server/world/ServerWorld;removeBlock(Lnet/minecraft/util/math/BlockPos;Z)Z"))
-    public boolean removeSlab(ServerWorld world, BlockPos pos, boolean move) {
-        if (this.newState != null) {
-            world.setBlockState(pos, this.newState);
-
-            return true;
+                       target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"))
+    public boolean removeSlab(World world, BlockPos pos, BlockState state, int flags) {
+        if (this.newState == null) {
+            return world.setBlockState(pos, state, flags);
         }
 
-        return world.removeBlock(pos, move);
+        world.setBlockState(pos, this.newState);
+
+        return true;
     }
 }

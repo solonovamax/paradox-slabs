@@ -1,14 +1,14 @@
 {
-    "required":           true,
-    "minVersion":         "0.8",
-    "package":            "net.auoeke.paradoxslabs.mixin",
+    "required": true,
+    "minVersion": "0.8",
+    "package": "paradoxslabs.mixin",
     "compatibilityLevel": "JAVA_17",
-    "mixins":             [
+    "mixins": [
         "EntityShapeContextMixin",
         "ServerPlayerInteractionManagerMixin",
         "SlabBlockMixin"
     ],
-    "client":             [
+    "client": [
         "ClientPlayerInteractionManagerMixin",
         "WorldRendererMixin"
     ],
