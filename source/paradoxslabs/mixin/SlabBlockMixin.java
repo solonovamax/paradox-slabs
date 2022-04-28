@@ -26,14 +26,12 @@ abstract class SlabBlockMixin {
     @Shadow
     @Final
     @NotNull
-    @SuppressWarnings("ConstantConditions")
-    protected static VoxelShape TOP_SHAPE = null;
+    protected static VoxelShape TOP_SHAPE;
     
     @Shadow
     @Final
     @NotNull
-    @SuppressWarnings("ConstantConditions")
-    protected static VoxelShape BOTTOM_SHAPE = null;
+    protected static VoxelShape BOTTOM_SHAPE;
     
     @Unique
     private static final VoxelShape east = VoxelShapes.cuboid(0.5, 0, 0, 1, 1, 1);

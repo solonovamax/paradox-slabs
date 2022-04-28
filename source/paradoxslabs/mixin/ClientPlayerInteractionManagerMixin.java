@@ -1,6 +1,6 @@
 package paradoxslabs.mixin;
 
-import paradoxslabs.ParadoxSlabs;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -16,6 +16,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import paradoxslabs.ParadoxSlabs;
+
 
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPlayerInteractionManager.class)
@@ -24,10 +26,10 @@ abstract class ClientPlayerInteractionManagerMixin {
     @Shadow
     @Final
     private MinecraftClient client;
-
+    
     @Unique
-    private BlockState newState = null;
-
+    private BlockState newState;
+    
     @ModifyVariable(method = "breakBlock",
                     at = @At(value = "INVOKE",
                              target = "Lnet/minecraft/block/Block;onBreak(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/entity/player/PlayerEntity;)V"))
@@ -37,24 +39,24 @@ abstract class ClientPlayerInteractionManagerMixin {
                 case X -> {
                     var xStates = ParadoxSlabs.xStates(this.client.world, pos, block, this.client.player);
                     this.newState = xStates.getRight();
-
+                    
                     return xStates.getLeft();
                 }
                 case Z -> {
                     var zStates = ParadoxSlabs.zStates(this.client.world, pos, block, this.client.player);
                     this.newState = zStates.getRight();
-
+                    
                     return zStates.getLeft();
                 }
             }
         }
-
+        
         var yStates = ParadoxSlabs.yStates(this.client.world, pos, block, this.client.player);
         this.newState = yStates.getRight();
-
+        
         return yStates.getLeft();
     }
-
+    
     @Redirect(method = "breakBlock",
               at = @At(value = "INVOKE",
                        target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"))
@@ -62,9 +64,9 @@ abstract class ClientPlayerInteractionManagerMixin {
         if (this.newState == null) {
             return world.setBlockState(pos, state, flags);
         }
-
+        
         world.setBlockState(pos, this.newState);
-
+        
         return true;
     }
 }

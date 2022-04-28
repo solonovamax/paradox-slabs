@@ -28,7 +28,7 @@ abstract class ServerPlayerInteractionManagerMixin {
     protected ServerWorld world;
     
     @Unique
-    private BlockState newState = null;
+    private BlockState newState;
     
     @ModifyVariable(method = "tryBreakBlock",
                     at = @At(value = "INVOKE",
