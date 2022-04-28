@@ -4,7 +4,6 @@
     "package": "paradoxslabs.mixin",
     "compatibilityLevel": "JAVA_17",
     "mixins": [
-        "EntityShapeContextMixin",
         "ServerPlayerInteractionManagerMixin",
         "SlabBlockMixin"
     ],

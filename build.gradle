@@ -17,6 +17,10 @@ repositories {
     }
 }
 
+minecraft {
+    println(this)
+}
+
 dependencies {
     mod("api-resource-loader")
     modRuntimeOnly("mod-menu")

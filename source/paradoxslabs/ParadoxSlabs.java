@@ -1,6 +1,6 @@
 package paradoxslabs;
 
-import paradoxslabs.access.EntityShapeContextAccess;
+import net.minecraft.block.EntityShapeContext;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
@@ -16,23 +16,26 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 
-public class ParadoxSlabs {
-    private static boolean checkedAxis;
-    private static boolean hasAxis;
-
+public final class ParadoxSlabs {
+    private static boolean CHECKED_AXIS = false;
+    private static boolean HAS_AXIS = false;
+    
+    private ParadoxSlabs() {
+    }
+    
     /** For Better Slabs compatibility. */
     public static boolean hasAxis() {
-        if (!checkedAxis) {
-            checkedAxis = true;
-            hasAxis = Blocks.ACACIA_SLAB.getDefaultState().contains(Properties.AXIS);
+        if (!CHECKED_AXIS) {
+            CHECKED_AXIS = true;
+            HAS_AXIS = Blocks.ACACIA_SLAB.getDefaultState().contains(Properties.AXIS);
         }
 
-        return hasAxis;
+        return HAS_AXIS;
     }
 
     public static BlockHitResult raycast(ShapeContext context, BlockView world, BlockPos pos, BlockState state) {
-        if (context instanceof EntityShapeContextAccess entityContext) {
-            var entity = entityContext.paradoxslabs_getEntity();
+        if (context instanceof EntityShapeContext entityContext) {
+            var entity = entityContext.getEntity();
 
             if (entity != null) {
                 var position = entity.getPos();

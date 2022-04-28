@@ -19,13 +19,14 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPlayerInteractionManager.class)
+@SuppressWarnings({ "AbstractClassNeverImplemented", "AbstractClassWithoutAbstractMethods" })
 abstract class ClientPlayerInteractionManagerMixin {
     @Shadow
     @Final
     private MinecraftClient client;
 
     @Unique
-    private BlockState newState;
+    private BlockState newState = null;
 
     @ModifyVariable(method = "breakBlock",
                     at = @At(value = "INVOKE",
