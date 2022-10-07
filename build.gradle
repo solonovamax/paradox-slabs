@@ -1,6 +1,7 @@
 plugins {
-    id("wheel").version("0-SNAPSHOT")
-    id("gronk").version("latest.release")
+    id("fabric-loom").version("1.0-SNAPSHOT")
+//    id("wheel").version("0-SNAPSHOT")
+    id("gronk").version("1.4.0")
 }
 
 group = "net.auoeke"
@@ -15,15 +16,21 @@ repositories {
         maven {name = "ladysnake"}
         maven {name = "jitpack"}
     }
+    maven { url = "https://maven.terraformersmc.com/releases/" }
 }
 
-minecraft {
-    println(this)
-}
+//minecraft {
+//    println(this)
+//}
 
 dependencies {
-    mod("api-resource-loader")
-    modRuntimeOnly("mod-menu")
+    minecraft "com.mojang:minecraft:1.19.2"
+	mappings "net.fabricmc:yarn:1.19.2+build.11:v2"
+	modImplementation "net.fabricmc:fabric-loader:0.14.9"
+//    mod("api-resource-loader")
+//    modRuntimeOnly("mod-menu")
+    modImplementation("net.fabricmc.fabric-api:fabric-api")
+    modRuntimeOnly("com.terraformersmc:modmenu")
 
     if (betterSlabs) {
         modRuntimeOnly("dev.bodner.jack:betterslabs")
